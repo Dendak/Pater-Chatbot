@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zeitzeugen-Interviews</title>
+<style>
+  :root { --bg:#f7f5f0; --fg:#222; --muted:#666; --card:#fff; --border:#ddd; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#1b1b1b; --fg:#eee; --muted:#aaa; --card:#262626; --border:#444; }
+  }
+  body { margin:0; background:var(--bg); color:var(--fg); font-family:system-ui, sans-serif; }
+  main { max-width:1100px; margin:0 auto; padding:24px 16px; }
+  h1 { font-size:1.6rem; margin:0 0 4px; }
+  p  { color:var(--muted); margin:0 0 16px; line-height:1.5; }
+  .frame { background:var(--card); border:1px solid var(--border); border-radius:10px; overflow:hidden; }
+  iframe { display:block; width:100%; height:80vh; min-height:600px; border:0; }
+  .src { font-size:.85rem; margin-top:8px; }
+  a { color:inherit; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Zeitzeugen-Interviews: Inge oder Kurt</h1>
+  <p>Interaktive Interviews mit Kurt S. Maier und Inge Auerbacher – ein Vergleichsprojekt für unseren Pater-Chatbot.
+     Zum Ausprobieren ist eine kostenlose Registrierung bei fragnach.org nötig.</p>
+  <div class="frame">
+    <iframe src="https://fragnach.org/inge-oder-kurt/"
+            title="fragnach.org – Inge oder Kurt"
+            allow="microphone; autoplay; fullscreen"
+            loading="lazy"></iframe>
+  </div>
+  <p class="src">Quelle: <a href="https://fragnach.org/inge-oder-kurt/" target="_blank" rel="noopener">fragnach.org/inge-oder-kurt</a>
+     – falls die Einbettung nicht lädt, bitte direkt dort öffnen.</p>
+</main>
+</body>
+</html>
