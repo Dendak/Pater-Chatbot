@@ -3,35 +3,225 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Zeitzeugen-Interviews</title>
+<title>Chatbot-Werkstatt: Interview</title>
 <style>
-  :root { --bg:#f7f5f0; --fg:#222; --muted:#666; --card:#fff; --border:#ddd; }
-  @media (prefers-color-scheme: dark) {
-    :root { --bg:#1b1b1b; --fg:#eee; --muted:#aaa; --card:#262626; --border:#444; }
+  :root {
+    --bg:#f7f5f0; --fg:#222; --muted:#5f5f5f; --card:#fff; --border:#ddd6c8;
+    --accent:#8a3b2e; --accent-soft:#f3e4df; --code:#f1eee7; --ok:#2f6b3a;
   }
-  body { margin:0; background:var(--bg); color:var(--fg); font-family:system-ui, sans-serif; }
-  main { max-width:1100px; margin:0 auto; padding:24px 16px; }
-  h1 { font-size:1.6rem; margin:0 0 4px; }
-  p  { color:var(--muted); margin:0 0 16px; line-height:1.5; }
-  .frame { background:var(--card); border:1px solid var(--border); border-radius:10px; overflow:hidden; }
-  iframe { display:block; width:100%; height:80vh; min-height:600px; border:0; }
-  .src { font-size:.85rem; margin-top:8px; }
-  a { color:inherit; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:#1b1b1b; --fg:#eee; --muted:#aaa; --card:#262626; --border:#3d3a35;
+      --accent:#e08a75; --accent-soft:#3a2723; --code:#2f2d2a; --ok:#7cc48a;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:#1b1b1b; --fg:#eee; --muted:#aaa; --card:#262626; --border:#3d3a35;
+    --accent:#e08a75; --accent-soft:#3a2723; --code:#2f2d2a; --ok:#7cc48a;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font-family:system-ui, sans-serif; line-height:1.55; }
+  main { max-width:860px; margin:0 auto; padding:32px 16px 64px; }
+  header h1 { font-size:1.9rem; margin:0 0 6px; line-height:1.2; }
+  header p { color:var(--muted); margin:0; }
+  .ziel { background:var(--accent-soft); border-left:4px solid var(--accent); padding:14px 16px; border-radius:8px; margin:24px 0; }
+  .ziel strong { color:var(--accent); }
+
+  .zeitplan { display:flex; gap:6px; margin:0 0 28px; flex-wrap:wrap; }
+  .zeitplan div { flex:1 1 120px; background:var(--card); border:1px solid var(--border); border-radius:8px; padding:8px 10px; font-size:.85rem; }
+  .zeitplan b { display:block; font-size:1rem; }
+
+  section.schritt { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:20px; margin:0 0 18px; }
+  .kopf { display:flex; align-items:baseline; gap:12px; margin-bottom:8px; }
+  .nr { flex:none; width:34px; height:34px; border-radius:50%; background:var(--accent); color:#fff; display:grid; place-items:center; font-weight:700; }
+  .kopf h2 { margin:0; font-size:1.25rem; }
+  .kopf .dauer { margin-left:auto; color:var(--muted); font-size:.9rem; white-space:nowrap; }
+  h3 { font-size:1rem; margin:16px 0 6px; }
+  ul, ol { padding-left:22px; margin:6px 0; }
+  li { margin:3px 0; }
+
+  .aufgaben { list-style:none; padding:0; margin:12px 0 0; }
+  .aufgaben li { margin:6px 0; }
+  .aufgaben label { display:flex; gap:10px; align-items:flex-start; cursor:pointer; }
+  .aufgaben input { margin-top:5px; width:18px; height:18px; accent-color:var(--ok); flex:none; }
+  .aufgaben input:checked + span { color:var(--muted); text-decoration:line-through; }
+
+  pre { background:var(--code); border-radius:8px; padding:12px 14px; overflow-x:auto; font-size:.9rem; margin:8px 0; white-space:pre-wrap; }
+  code { font-family:ui-monospace, Consolas, monospace; }
+  .hinweis { border:1px dashed var(--border); border-radius:8px; padding:10px 14px; font-size:.92rem; margin-top:12px; }
+  .hinweis b { color:var(--accent); }
+  .zwei { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  @media (max-width:640px) { .zwei { grid-template-columns:1fr; } .kopf { flex-wrap:wrap; } .kopf .dauer { margin-left:46px; } }
+
+  details { margin-top:10px; }
+  summary { cursor:pointer; color:var(--accent); font-weight:600; }
+  .frame { border:1px solid var(--border); border-radius:10px; overflow:hidden; margin-top:10px; }
+  iframe { display:block; width:100%; height:70vh; min-height:480px; border:0; background:#fff; }
+  a { color:var(--accent); }
+  footer { color:var(--muted); font-size:.85rem; text-align:center; margin-top:32px; }
 </style>
 </head>
 <body>
 <main>
-  <h1>Zeitzeugen-Interviews: Inge oder Kurt</h1>
-  <p>Interaktive Interviews mit Kurt S. Maier und Inge Auerbacher – ein Vergleichsprojekt für unseren Pater-Chatbot.
-     Zum Ausprobieren ist eine kostenlose Registrierung bei fragnach.org nötig.</p>
-  <div class="frame">
-    <iframe src="https://fragnach.org/inge-oder-kurt/"
-            title="fragnach.org – Inge oder Kurt"
-            allow="microphone; autoplay; fullscreen"
-            loading="lazy"></iframe>
+  <header>
+    <h1>Chatbot-Werkstatt – Teil 1: Das Interview</h1>
+    <p>Arbeitsauftrag für 2–3 Gruppen · ca. 50 Minuten</p>
+  </header>
+
+  <div class="ziel">
+    <strong>Ziel heute:</strong> Ihr sammelt die <em>Daten</em> für einen Chatbot. Am Ende hat jede Gruppe ein aufgenommenes Interview
+    und ein sauberes Transkript. In der nächsten Stunde wird daraus ein Chatbot, der nur das sagt, was die Person wirklich erzählt hat.
   </div>
-  <p class="src">Quelle: <a href="https://fragnach.org/inge-oder-kurt/" target="_blank" rel="noopener">fragnach.org/inge-oder-kurt</a>
-     – falls die Einbettung nicht lädt, bitte direkt dort öffnen.</p>
+
+  <div class="zeitplan" aria-label="Zeitplan">
+    <div><b>5 min</b>Einstieg</div>
+    <div><b>10 min</b>Fragen</div>
+    <div><b>15 min</b>Aufnahme</div>
+    <div><b>15 min</b>Transkript</div>
+    <div><b>5 min</b>Sichern</div>
+  </div>
+
+  <!-- 0 Einstieg -->
+  <section class="schritt">
+    <div class="kopf"><span class="nr">0</span><h2>Einstieg: So sieht das Ziel aus</h2><span class="dauer">5 min</span></div>
+    <p>Bei <a href="https://fragnach.org/inge-oder-kurt/" target="_blank" rel="noopener">fragnach.org</a> kann man Zeitzeug:innen
+      Fragen stellen und bekommt ihre echten Antworten aus aufgezeichneten Interviews. Genau so etwas bauen wir – im Kleinen.</p>
+    <details>
+      <summary>Seite hier anzeigen</summary>
+      <div class="frame">
+        <iframe src="https://fragnach.org/inge-oder-kurt/" title="fragnach.org – Inge oder Kurt" loading="lazy"></iframe>
+      </div>
+    </details>
+  </section>
+
+  <!-- 1 Fragen -->
+  <section class="schritt">
+    <div class="kopf"><span class="nr">1</span><h2>Person wählen &amp; Fragen vorbereiten</h2><span class="dauer">10 min</span></div>
+    <p>Wählt eine Person, die ihr interviewt: jemand aus eurer Gruppe, aus einer anderen Gruppe oder eine Lehrkraft, die vorher <b>Ja</b> gesagt hat.</p>
+
+    <div class="zwei">
+      <div>
+        <h3>So gelingen gute Fragen</h3>
+        <ul>
+          <li><b>Offen fragen:</b> „Erzähl mal, wie …“ statt „Hast du …?“</li>
+          <li><b>Nach Geschichten fragen:</b> konkrete Erlebnisse machen den Bot lebendig.</li>
+          <li><b>Nach Themen ordnen:</b> Kindheit · Schule · Hobbys · Menschen · Zukunft.</li>
+          <li><b>Nachfragen einplanen:</b> „Wie hast du dich dabei gefühlt?“</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Beispielfragen</h3>
+        <ul>
+          <li>Wo bist du aufgewachsen – wie war das?</li>
+          <li>Was ist deine schönste Erinnerung an die Volksschule?</li>
+          <li>Was machst du am liebsten in deiner Freizeit, und warum?</li>
+          <li>Wer hat dich besonders geprägt?</li>
+          <li>Was willst du später einmal machen?</li>
+          <li>Welchen Rat gibst du jüngeren Schüler:innen?</li>
+        </ul>
+      </div>
+    </div>
+
+    <ul class="aufgaben">
+      <li><label><input type="checkbox" data-id="1a"><span>Person ausgewählt und um Einverständnis gefragt</span></label></li>
+      <li><label><input type="checkbox" data-id="1b"><span>10–15 Fragen aufgeschrieben, nach Themen geordnet</span></label></li>
+      <li><label><input type="checkbox" data-id="1c"><span>Rollen verteilt: Fragesteller:in · Aufnahme · Zeitnehmer:in · Notizen</span></label></li>
+    </ul>
+  </section>
+
+  <!-- 2 Aufnahme -->
+  <section class="schritt">
+    <div class="kopf"><span class="nr">2</span><h2>Interview aufnehmen</h2><span class="dauer">15 min</span></div>
+
+    <div class="zwei">
+      <div>
+        <h3>Womit?</h3>
+        <ul>
+          <li><b>Nur Ton</b> (reicht für den Chatbot): Handy-Sprachmemo oder Windows-App „Audiorekorder“</li>
+          <li><b>Mit Video</b> (optional): Handy-Kamera oder Windows-App „Kamera“</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Tipps</h3>
+        <ul>
+          <li>Ruhigen Ort suchen – nicht zwei Gruppen im selben Raum.</li>
+          <li>Handy 30–50 cm vor die sprechende Person legen.</li>
+          <li>Ausreden lassen, nicht dazwischenreden. Pausen sind okay.</li>
+          <li>Ziel: <b>8–10 Minuten</b> Aufnahme.</li>
+        </ul>
+      </div>
+    </div>
+
+    <p>Startet die Aufnahme mit einem kurzen Satz:</p>
+    <pre><code>„Interview mit [Name], [Datum], Gruppe [Nummer].“</code></pre>
+
+    <ul class="aufgaben">
+      <li><label><input type="checkbox" data-id="2a"><span>Testaufnahme (10 Sekunden) angehört – Ton ist gut verständlich</span></label></li>
+      <li><label><input type="checkbox" data-id="2b"><span>Interview aufgenommen (8–10 Minuten)</span></label></li>
+      <li><label><input type="checkbox" data-id="2c"><span>Aufnahme an den Lehrer-PC übertragen (USB, Teams oder OneDrive)</span></label></li>
+    </ul>
+
+    <div class="hinweis"><b>Datenschutz:</b> Nur aufnehmen, wer zugestimmt hat. Bei Video niemanden im Hintergrund filmen.
+      Aufnahmen bleiben auf dem Schul-PC – nicht auf Social Media, nicht in private Chats.</div>
+  </section>
+
+  <!-- 3 Transkript -->
+  <section class="schritt">
+    <div class="kopf"><span class="nr">3</span><h2>Transkript erstellen &amp; korrigieren</h2><span class="dauer">15 min</span></div>
+    <p>Am Lehrer-PC wird eure Aufnahme mit dem Programm <b>Buzz</b> automatisch in Text umgewandelt. Buzz nutzt die KI „Whisper“
+      und läuft komplett offline – eure Aufnahme verlässt den Computer nicht.</p>
+
+    <h3>So geht’s</h3>
+    <ol>
+      <li>Buzz öffnen → Aufnahme hineinziehen.</li>
+      <li>Sprache: <b>Deutsch</b> · Modell: wie von der Lehrkraft eingestellt.</li>
+      <li>Warten, bis der Text fertig ist (je nach PC 1–5 Minuten).</li>
+      <li>Exportieren als <b>TXT</b> (Text) und <b>SRT</b> (mit Zeitstempeln).</li>
+      <li>Text durchlesen, Fehler korrigieren (vor allem Namen und Orte) und Fragen/Antworten markieren:</li>
+    </ol>
+    <pre><code>F: Wo bist du aufgewachsen?
+A: In Hallein, direkt neben der Salzach. Wir hatten einen großen Garten …
+
+F: Was ist deine schönste Erinnerung an die Volksschule?
+A: …</code></pre>
+    <p>Tipp: Während ihr wartet, bis ihr bei Buzz dran seid, schreibt schon einmal die Fragen im <code>F:</code>-Format in eine Datei.</p>
+
+    <ul class="aufgaben">
+      <li><label><input type="checkbox" data-id="3a"><span>Transkript mit Buzz erstellt</span></label></li>
+      <li><label><input type="checkbox" data-id="3b"><span>Fehler korrigiert (Namen, Orte, unverständliche Stellen)</span></label></li>
+      <li><label><input type="checkbox" data-id="3c"><span>Jede Frage mit <code>F:</code>, jede Antwort mit <code>A:</code> markiert</span></label></li>
+    </ul>
+  </section>
+
+  <!-- 4 Sichern -->
+  <section class="schritt">
+    <div class="kopf"><span class="nr">4</span><h2>Sichern &amp; Ausblick</h2><span class="dauer">5 min</span></div>
+    <p>Speichert eure Dateien im Klassenordner mit diesen Namen:</p>
+    <pre><code>Gruppe1_Interview_Vorname.m4a
+Gruppe1_Transkript_Vorname.txt
+Gruppe1_Transkript_Vorname.srt</code></pre>
+
+    <ul class="aufgaben">
+      <li><label><input type="checkbox" data-id="4a"><span>Alle Dateien richtig benannt und im Klassenordner gespeichert</span></label></li>
+      <li><label><input type="checkbox" data-id="4b"><span>Kurz notiert: Welche Frage hat die beste Antwort gebracht? Welche hat nicht funktioniert?</span></label></li>
+    </ul>
+
+    <h3>Nächste Stunde</h3>
+    <p>Aus eurem Transkript wird ein Chatbot. Überlegt schon jetzt: Was soll der Bot antworten, wenn man ihn etwas fragt,
+      das <em>nicht</em> im Interview vorkommt?</p>
+  </section>
+
+  <footer>Chatbot-Werkstatt · Privatgymnasium der Herz-Jesu-Missionare</footer>
 </main>
+<script>
+  // Häkchen pro Gerät merken (nur Komfort).
+  document.querySelectorAll(".aufgaben input").forEach(box => {
+    const key = "auftrag-" + box.dataset.id;
+    try { box.checked = localStorage.getItem(key) === "1"; } catch {}
+    box.addEventListener("change", () => {
+      try { localStorage.setItem(key, box.checked ? "1" : "0"); } catch {}
+    });
+  });
+</script>
 </body>
 </html>
